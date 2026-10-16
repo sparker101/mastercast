@@ -182,10 +182,17 @@ function renderModal() {
             <div class="ch-panel">
               <div class="ch-panel-head">
                 <span class="ch-name">${esc(NETWORK_LABEL[active] || active)}</span>
-                <span class="stage-badge stage-${ch.status}">${STAGE_LABEL[ch.status]}</span>
+                <div class="status-seg">
+                  ${STAGE_ORDER.map((s) => `
+                    <button class="status-opt status-${s} ${s === ch.status ? 'status-opt-active' : ''}" data-status="${s}">${STAGE_LABEL[s]}</button>
+                  `).join('')}
+                </div>
               </div>
-              <p class="ch-text">${esc(text)}</p>
-              ${ch.text == null ? '<p class="ch-note">Same as master text, edit to adapt it for this channel.</p>' : ''}
+              <textarea class="ch-edit" rows="4" spellcheck="false">${esc(text)}</textarea>
+              <div class="ch-actions">
+                ${ch.text == null ? '<span class="ch-note">Same as master text, edit to adapt it for this channel.</span>' : ''}
+                <button class="copy-btn">Copy</button>
+              </div>
             </div>
           ` : '<p class="empty-state">No channels on this post.</p>'}
         </div>
@@ -204,6 +211,40 @@ function renderModal() {
       renderModal();
     });
   });
+
+  const editBox = root.querySelector('.ch-edit');
+  if (editBox) {
+    editBox.addEventListener('input', () => {
+      ch.text = editBox.value;
+      save();
+    });
+  }
+
+  root.querySelectorAll('.status-opt').forEach((el) => {
+    el.addEventListener('click', () => {
+      ch.status = el.dataset.status;
+      save();
+      renderModal();
+    });
+  });
+
+  const copyBtn = root.querySelector('.copy-btn');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      await window.api.copyText(editBox ? editBox.value : text);
+      copyBtn.textContent = 'Copied';
+      setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1200);
+    });
+  }
+}
+
+let saveTimer = null;
+function save() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    window.api.saveData(state.data);
+    if (state.view === 'project') renderProject(state.projectId);
+  }, 250);
 }
 
 async function init() {

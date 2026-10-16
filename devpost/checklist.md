@@ -29,7 +29,7 @@ Build mode: fast
   Learner check: Open today's post and check that each channel shows its own status and text the way you expected — this is the app's core idea, so say if the layout feels off.
   Commit: `Add post modal with per-channel view`
 
-- [ ] **3. Work the loop: edit, copy, tick published**
+- [x] **3. Work the loop: edit, copy, tick published**
   Becomes usable: In the modal, edit a channel's text, press copy (real clipboard), advance a channel's status to published. The card's stage badge recomputes from the least-advanced channel, and everything survives closing and reopening the app.
   Why now: The kernel becomes a loop — adapt, copy, publish by hand, tick off, come back tomorrow. Persistence folds in here because status changes are meaningless if they don't stick.
   PRD ref: `prd.md > The Core Journey` (steps 5-6), `prd.md > Post popup` (copy, statuses, stage derivation), `prd.md > States and Boundaries` (persistence)
