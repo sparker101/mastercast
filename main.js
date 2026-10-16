@@ -16,9 +16,6 @@ function resolveSeed(seed) {
         delete post.dayOffset;
         delete post.time;
       }
-      if (post.mediaPath && !path.isAbsolute(post.mediaPath)) {
-        post.mediaPath = path.join(__dirname, post.mediaPath);
-      }
     }
   }
   return data;
@@ -39,10 +36,11 @@ function loadData() {
 }
 
 function resolveMediaPaths(data) {
+  const root = __dirname.toLowerCase();
   for (const project of data.projects || []) {
     for (const post of project.posts || []) {
-      if (post.mediaPath && !path.isAbsolute(post.mediaPath)) {
-        post.mediaPath = path.join(__dirname, post.mediaPath);
+      if (post.mediaPath && path.isAbsolute(post.mediaPath) && post.mediaPath.toLowerCase().startsWith(root)) {
+        post.mediaPath = path.relative(__dirname, post.mediaPath);
       }
     }
   }
@@ -98,7 +96,8 @@ app.whenReady().then(() => {
     return { ok: true };
   });
   ipcMain.handle('media:open', (_event, p) => {
-    const target = String(p);
+    const s = String(p);
+    const target = path.isAbsolute(s) ? s : path.join(__dirname, s);
     if (!fs.existsSync(target)) return 'Folder not found';
     return shell.openPath(target);
   });

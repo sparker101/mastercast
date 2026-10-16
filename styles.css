@@ -38,6 +38,92 @@ body {
   letter-spacing: 0.01em;
 }
 
+.view-tabs {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 2px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px;
+}
+.tab {
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 4px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.tab:hover { color: var(--text); }
+.tab-active { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+.ghost-tile {
+  border-style: dashed;
+  color: var(--muted);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 110px;
+}
+.ghost-plus { font-size: 26px; font-weight: 400; line-height: 1; }
+.ghost-tile:hover { border-color: var(--muted); box-shadow: none; color: var(--text); }
+
+.account-ghost {
+  border-style: dashed;
+  color: var(--muted);
+  background: none;
+  font: inherit;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.account-ghost:hover { color: var(--accent); border-color: var(--accent); }
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 26px;
+}
+.section-head .section-title { margin: 0 0 10px; }
+.ghost-btn {
+  border: 1px dashed var(--line);
+  background: none;
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.ghost-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+.post-project {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.hint-toast {
+  position: fixed;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--text);
+  color: var(--surface);
+  font-size: 13px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.hint-toast.hint-visible { opacity: 0.92; transform: translateX(-50%) translateY(0); }
+
 .back-btn {
   border: 1px solid var(--line);
   background: var(--surface);

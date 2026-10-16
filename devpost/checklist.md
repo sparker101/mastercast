@@ -56,6 +56,10 @@ Build mode: fast
 
 ## Final Review
 
+- [ ] Ghost "New project" tile on the projects screen (non-functional demo affordance)
+- [ ] Calendar view switcher: global Today list across all projects
+- [ ] Ghost "Add social network" and "New post" buttons on the project page (non-functional demo affordances with hint)
+- [ ] Media path displays relative path (`demo-media/acme/`) instead of the absolute user path
 - [ ] Final review complete — feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
