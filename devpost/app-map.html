@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poststage: App Map</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --surface: #fff; --text: #1c1c1a; --muted: #73736e;
+    --line: #e3e3de; --accent: #4c5fd5; --published: #2f9e44;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.55;
+  }
+  main { max-width: 780px; margin: 0 auto; padding: 40px 24px 64px; }
+  h1 { font-size: 24px; margin: 0 0 6px; }
+  h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 36px 0 12px; }
+  p { margin: 8px 0; }
+  code, .path {
+    font-family: ui-monospace, Consolas, monospace; font-size: 0.92em;
+    background: #efefec; padding: 1px 5px; border-radius: 5px;
+  }
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 12px; padding: 18px 20px; margin: 12px 0;
+  }
+  /* Action diagram */
+  .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin: 14px 0; }
+  .step {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 9px;
+    padding: 10px 13px; font-size: 13.5px; flex: 1 1 130px;
+  }
+  .step b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 4px; }
+  .step.ui { border-color: var(--accent); }
+  .step.disk { border-color: var(--published); }
+  .arrow { align-self: center; color: var(--muted); font-size: 18px; }
+  /* Route */
+  ol.route { padding-left: 22px; }
+  ol.route li { margin: 12px 0; }
+  ol.route .anchor { display: block; margin-top: 3px; }
+  details { margin: 10px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  ul { padding-left: 20px; }
+  li { margin: 6px 0; }
+  .note { font-size: 13.5px; color: var(--muted); }
+  footer { margin-top: 44px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Poststage: App Map</h1>
+  <p class="note">A take-home guide to how this proof of concept fits together. Snapshot of commit <code>a75a34f</code>: code moves, so treat this as a map of where to look, not the last word.</p>
+
+  <h2>What it is</h2>
+  <div class="card">
+    <p>A desktop app (Electron) for planning social posts across client projects. One post carries a text version and a publish status for each channel, so the core loop is: see today's posts, adapt the text per channel, copy it, publish by hand, and tick that channel off.</p>
+    <p>Two halves. The <b>main process</b> (<code>main.js</code>) is the desktop side: window, data file read/write, opening folders, clipboard. The <b>renderer</b> (<code>index.html</code> + <code>app.js</code> + <code>styles.css</code>) is every screen you click. They talk only through the tiny bridge in <code>preload.js</code>.</p>
+    <p>All data lives in one JSON file in the app's storage area (<code>planner-data.json</code>), seeded from <code>data/seed.json</code> on first run. Nothing you change ever enters the repo.</p>
+  </div>
+
+  <h2>One action, end to end</h2>
+  <p class="note">Ticking a channel "published" and what happens next.</p>
+  <div class="flow" role="img" aria-label="Flow: status button click in the modal updates in-memory data, saves to the JSON file through the bridge, and the card badge recomputes from the least-advanced channel.">
+    <div class="step ui"><b>Click</b>Published in a channel's status control</div>
+    <span class="arrow">&rarr;</span>
+    <div class="step"><b>Update</b><code>.status-opt</code> listener sets <code>ch.status</code></div>
+    <span class="arrow">&rarr;</span>
+    <div class="step"><b>Save</b><code>save()</code> debounces, calls <code>window.api.saveData</code></div>
+    <span class="arrow">&rarr;</span>
+    <div class="step disk"><b>Persist</b><code>ipcMain 'data:save'</code> writes <code>planner-data.json</code></div>
+    <span class="arrow">&rarr;</span>
+    <div class="step ui"><b>Result</b><code>stageOf()</code> recomputes the card badge</div>
+  </div>
+
+  <h2>Reference route (3 stops)</h2>
+  <ol class="route">
+    <li>
+      The status control renders in the modal.
+      <span class="anchor"><span class="path">app.js</span> &rarr; <code>renderModal()</code>, the <code>status-seg</code> block. One button per status in <code>STAGE_ORDER</code>; the listener below it mutates <code>ch.status</code> and re-renders.</span>
+    </li>
+    <li>
+      Saving crosses the bridge to the file.
+      <span class="anchor"><span class="path">app.js</span> &rarr; <code>save()</code> (250&nbsp;ms debounce) &rarr; <span class="path">preload.js</span> <code>saveData</code> &rarr; <span class="path">main.js</span> <code>ipcMain.handle('data:save')</code> &rarr; <code>DATA_PATH</code>.</span>
+    </li>
+    <li>
+      The badge is computed, never stored.
+      <span class="anchor"><span class="path">app.js</span> &rarr; <code>stageOf(post)</code> takes the least-advanced channel status at render time, so a badge can never disagree with the channels.</span>
+    </li>
+  </ol>
+
+  <h2>To change this, start here</h2>
+  <div class="card">
+    <ul>
+      <li><b>Add or rename a status</b>: <code>STAGE_ORDER</code> and <code>STAGE_LABEL</code> at the top of <code>app.js</code>. Order matters: index 0 is the least advanced.</li>
+      <li><b>Add a network</b>: drop the SVG in <code>icons/</code>, add it to <code>icons/icons.js</code> and <code>NETWORK_LABEL</code> in <code>app.js</code>, then use it in <code>data/seed.json</code>.</li>
+      <li><b>Change demo content</b>: <code>data/seed.json</code>. Posts use <code>dayOffset</code> relative to first launch so a fresh clone always has something due today.</li>
+      <li><b>Restyle</b>: the palette and spacing live in the <code>:root</code> variables at the top of <code>styles.css</code>.</li>
+      <li><b>New desktop capability</b> (notifications, tray): handler in <code>main.js</code>, one line exposing it in <code>preload.js</code>, call it from <code>app.js</code>.</li>
+    </ul>
+  </div>
+
+  <h2>A practice to reuse</h2>
+  <div class="card">
+    <p>The plan assumed <code>shell.openPath</code> returns an error string for missing folders. On Windows it actually pops a blocking OS dialog, so the modal's error branch never ran. It was found because the app had an observation channel: a hidden-window smoke hook (<code>PLANNER_SMOKE</code> in <code>main.js</code>) that runs a script inside the real page and reports the result, plus a one-line probe recording what the handler actually received.</p>
+    <p><b>Reusable:</b> when an agent builds behavior neither of you can fully predict, give it the smallest mechanical observation channel early: a script, a probe, a test. Agents verify what they can measure and guess at what they can't. Recorded in <code>devpost/checklist.md &gt; Revisions</code>.</p>
+  </div>
+
+  <h2>Run it again</h2>
+  <div class="card">
+    <p><code>npm install</code> (once), then <code>npm start</code> in the project folder. Your real data lives outside the repo in Electron's <code>userData</code> folder; deleting that file reseeds the demo.</p>
+    <details>
+      <summary>Verification harness used during the build</summary>
+      <p class="note"><code>PLANNER_DATA_PATH</code> points the data file somewhere safe, <code>PLANNER_SMOKE</code> names a JS file executed inside the page whose return value is printed as <code>SMOKE_RESULT</code>, and <code>PLANNER_SMOKE_SHOT</code> captures a screenshot. Same idea as the <code>POOL_DATA_PATH</code> testing convention in The Pool.</p>
+    </details>
+  </div>
+
+  <footer>Generated at the end of <code>5-build</code>. Open this file in any browser; it needs no server or network.</footer>
+</main>
+</body>
+</html>

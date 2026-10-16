@@ -51,28 +51,28 @@ Build mode: fast
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — after slice 2, when the kernel (one post, per-channel versions) is on screen and layout feedback can still shape slices 3-4
-- [ ] Final kick-the-tires exploration and feedback completed
+- [x] Early usable behavior explored — planned after slice 2, deferred by the learner and covered by the final kick-the-tires session
+- [x] Final kick-the-tires exploration and feedback completed
 
 ## Final Review
 
-- [ ] Ghost "New project" tile on the projects screen (non-functional demo affordance)
-- [ ] Calendar view switcher: global Today list across all projects
-- [ ] Ghost "Add social network" and "New post" buttons on the project page (non-functional demo affordances with hint)
-- [ ] Media path displays relative path (`demo-media/acme/`) instead of the absolute user path
-- [ ] Final review complete — feedback resolved and learner confirms ready to ship
+- [x] Ghost "New project" tile on the projects screen (non-functional demo affordance)
+- [x] Calendar view switcher: global Today list across all projects
+- [x] Ghost "Add social network" and "New post" buttons on the project page (non-functional demo affordances with hint)
+- [x] Media path displays relative path (`demo-media/acme/`) instead of the absolute user path
+- [x] Final review complete — feedback resolved and learner confirms ready to ship
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] Learning activity complete — prior practice connected (the `shell.openPath` investigation during slice 4)
+- [x] Optional edit and transfer reflection addressed — offered
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence:
-Route and stops:
-Edit outcome:
-Reflection:
-Activity mode:
+Activity and evidence: Connected the learner's goal (efficient agent collaboration) to the openPath failure: spec assumed an error string, Windows showed a blocking dialog instead, and the smoke harness (`PLANNER_SMOKE` in `main.js`) plus a `document.title` probe located the failure. Takeaway recorded in `app-map.html > A practice to reuse` and `## Revisions` below.
+Route and stops: Reference route only (prior practice counted): `app.js renderModal` status-seg → `app.js save()`/`preload.js`/`main.js data:save` → `app.js stageOf`. Anchors verified against committed source at `a75a34f`.
+Edit outcome: Not applicable — learner declined a code edit in favor of the focused alternative.
+Reflection: Offered the transfer question ("what would you do differently next time you start with an agent?").
+Activity mode: Prior practice connected; static reference route in the map.
 
 ## Revisions
 
