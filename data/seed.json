@@ -1,0 +1,118 @@
+{
+  "projects": [
+    {
+      "id": "proj-acme",
+      "name": "Acme Bakery",
+      "website": "https://acmebakery.example.com",
+      "logo": null,
+      "accounts": [
+        { "network": "instagram", "handle": "@acmebakery", "status": "active" },
+        { "network": "pinterest", "handle": "@acmebakes", "status": "active" },
+        { "network": "tiktok", "handle": "", "status": "to_create" }
+      ],
+      "posts": [
+        {
+          "id": "post-acme-1",
+          "title": "Autumn menu launch",
+          "dayOffset": 0,
+          "time": "09:00",
+          "masterText": "The autumn menu is here: pumpkin seed loaf, fig and walnut rolls, and the return of our cardamom bun. In store from Friday.",
+          "mediaPath": "demo-media/acme/",
+          "channels": {
+            "instagram": { "text": null, "status": "ready" },
+            "pinterest": { "text": null, "status": "ready" },
+            "tiktok": { "text": null, "status": "draft" }
+          }
+        },
+        {
+          "id": "post-acme-2",
+          "title": "Weekend pastry box",
+          "dayOffset": 0,
+          "time": "18:30",
+          "masterText": "Six pastries, one box, zero regrets. Weekend pre-orders open until Thursday night.",
+          "mediaPath": "demo-media/acme/",
+          "channels": {
+            "instagram": { "text": null, "status": "draft" },
+            "pinterest": { "text": null, "status": "idea" }
+          }
+        },
+        {
+          "id": "post-acme-3",
+          "title": "Behind the scenes reel",
+          "dayOffset": 1,
+          "time": "10:00",
+          "masterText": "4am starts, flour everywhere, and why we still hand-shape every loaf.",
+          "mediaPath": "demo-media/acme/",
+          "channels": {
+            "instagram": { "text": null, "status": "draft" },
+            "tiktok": { "text": null, "status": "idea" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "proj-nordwind",
+      "name": "Nordwind Cycling",
+      "website": "https://nordwindcycling.example.com",
+      "logo": null,
+      "accounts": [
+        { "network": "instagram", "handle": "@nordwind.cc", "status": "active" },
+        { "network": "x", "handle": "@nordwindcc", "status": "active" },
+        { "network": "youtube", "handle": "Nordwind Cycling", "status": "active" }
+      ],
+      "posts": [
+        {
+          "id": "post-nordwind-1",
+          "title": "Alpine loop photo essay",
+          "dayOffset": 0,
+          "time": "12:00",
+          "masterText": "Three passes, 2,400m of climbing, and the best descent of the season. Full photo essay on the site.",
+          "mediaPath": "demo-media/nordwind/",
+          "channels": {
+            "instagram": { "text": null, "status": "ready" },
+            "x": { "text": null, "status": "draft" },
+            "youtube": { "text": null, "status": "idea" }
+          }
+        },
+        {
+          "id": "post-nordwind-2",
+          "title": "Winter gear list",
+          "dayOffset": -1,
+          "time": "17:00",
+          "masterText": "Everything that survived last winter on the bike, ranked by how much it hurt to pay for.",
+          "mediaPath": "demo-media/nordwind/",
+          "channels": {
+            "instagram": { "text": null, "status": "published" },
+            "x": { "text": null, "status": "published" },
+            "youtube": { "text": null, "status": "published" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "proj-pixelfern",
+      "name": "Pixel Fern Studio",
+      "website": "https://pixelfern.example.com",
+      "logo": null,
+      "accounts": [
+        { "network": "instagram", "handle": "@pixelfern", "status": "active" },
+        { "network": "pinterest", "handle": "", "status": "to_create" },
+        { "network": "tiktok", "handle": "", "status": "to_create" }
+      ],
+      "posts": [
+        {
+          "id": "post-pixelfern-1",
+          "title": "Portfolio refresh announcement",
+          "dayOffset": 2,
+          "time": "11:00",
+          "masterText": "New case studies are up: brand identity for a ceramics studio and a full site redesign for a winery.",
+          "mediaPath": "demo-media/pixelfern/",
+          "channels": {
+            "instagram": { "text": null, "status": "idea" },
+            "pinterest": { "text": null, "status": "idea" }
+          }
+        }
+      ]
+    }
+  ]
+}

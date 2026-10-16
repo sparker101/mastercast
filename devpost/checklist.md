@@ -5,11 +5,11 @@ status: approved
 
 # Build Checklist
 
-Build mode: pending — chosen at build start
+Build mode: fast
 
 ## Slices
 
-- [ ] **1. Open the app, enter a project, see today's posts**
+- [x] **1. Open the app, enter a project, see today's posts**
   Becomes usable: `npm start` opens a real desktop window listing the demo projects. Clicking one shows its header (name, website link, logo placeholder), the accounts strip (network icon + handle + status), and the Today view with post cards (title, stage badge, channel tags). A project with nothing today shows the empty-today message. A corrupt data file reseeds cleanly instead of crashing.
   Why now: Proves the whole path end to end on the first slice — Electron window, data seed, both main screens — so every later slice has somewhere to land. Scaffolding lives here, not as its own step.
   PRD ref: `prd.md > The Core Journey` (steps 1-2), `prd.md > Projects and accounts`, `prd.md > Today calendar`, `prd.md > States and Boundaries`

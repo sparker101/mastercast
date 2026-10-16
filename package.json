@@ -1,0 +1,13 @@
+{
+  "name": "poststage",
+  "version": "0.1.0",
+  "description": "A planning control room for social media posts across many projects.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^38.0.0"
+  }
+}
