@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, clipboard } = require('electron');
+const { app, BrowserWindow, ipcMain, clipboard, shell } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
@@ -95,6 +95,15 @@ app.whenReady().then(() => {
   ipcMain.handle('data:save', (_event, data) => saveData(data));
   ipcMain.handle('clipboard:write', (_event, text) => {
     clipboard.writeText(String(text == null ? '' : text));
+    return { ok: true };
+  });
+  ipcMain.handle('media:open', (_event, p) => {
+    const target = String(p);
+    if (!fs.existsSync(target)) return 'Folder not found';
+    return shell.openPath(target);
+  });
+  ipcMain.handle('shell:external', (_event, url) => {
+    shell.openExternal(String(url));
     return { ok: true };
   });
   createWindow();

@@ -39,7 +39,7 @@ Build mode: fast
   Learner check: The real loop — open today's post, tweak the Instagram text, copy it, tick Instagram published, close and reopen the app, and confirm it stuck and the card badge moved.
   Commit: `Add channel editing, copy, and status tracking`
 
-- [ ] **4. Real hooks and polish**
+- [x] **4. Real hooks and polish**
   Becomes usable: The media path opens the real folder in Explorer (bundled `demo-media/` samples), the project website link opens in the browser, a missing folder shows a readable error next to the link, and a failed copy says so. Visual pass brings everything in line with the spec's minimal look.
   Why now: Last, because it's the outside-world wiring — folder opening and external links — plus the look-and-feel pass that is cheapest to do once all the screens exist.
   PRD ref: `prd.md > Post popup` (media path opens folder), `prd.md > Projects and accounts` (website link), `prd.md > Look and Feel`
@@ -71,3 +71,5 @@ Reflection:
 Activity mode:
 
 ## Revisions
+
+- Media-folder errors are checked in `main.js` before calling `shell.openPath` — the build discovered that `openPath` on a missing path makes Windows show a blocking OS error dialog that stalls the page, so the handler now returns "Folder not found" via `fs.existsSync` and the modal shows the inline error as specified.

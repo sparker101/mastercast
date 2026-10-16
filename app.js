@@ -113,7 +113,7 @@ function renderProject(projectId) {
       <span class="project-logo large">${esc(p.name.trim().charAt(0).toUpperCase())}</span>
       <div>
         <h2 class="project-title">${esc(p.name)}</h2>
-        <span class="project-site">${esc(p.website || '')}</span>
+        ${p.website ? `<button class="site-link">${esc(p.website)}</button>` : ''}
       </div>
     </div>
     <div class="accounts-strip">${accounts}</div>
@@ -125,6 +125,10 @@ function renderProject(projectId) {
   document.querySelectorAll('.post-card').forEach((el) => {
     el.addEventListener('click', () => openPost(el.dataset.post));
   });
+  const siteLink = document.querySelector('.site-link');
+  if (siteLink) {
+    siteLink.addEventListener('click', () => window.api.openExternal(p.website));
+  }
 }
 
 function openPost(postId) {
@@ -173,7 +177,9 @@ function renderModal() {
           <span class="field-label">Master text</span>
           <p class="master-text">${esc(post.masterText)}</p>
           <span class="field-label">Media</span>
-          <p class="media-path">${esc(post.mediaPath || 'No media folder set')}</p>
+          ${post.mediaPath
+            ? `<button class="media-link" title="Open folder">${esc(post.mediaPath)}</button><p class="media-error" hidden></p>`
+            : '<p class="media-path">No media folder set</p>'}
         </div>
         <div class="modal-section">
           <span class="field-label">Channels</span>
@@ -231,9 +237,25 @@ function renderModal() {
   const copyBtn = root.querySelector('.copy-btn');
   if (copyBtn) {
     copyBtn.addEventListener('click', async () => {
-      await window.api.copyText(editBox ? editBox.value : text);
-      copyBtn.textContent = 'Copied';
+      try {
+        await window.api.copyText(editBox ? editBox.value : text);
+        copyBtn.textContent = 'Copied';
+      } catch (err) {
+        copyBtn.textContent = "Couldn't copy";
+      }
       setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1200);
+    });
+  }
+
+  const mediaLink = root.querySelector('.media-link');
+  if (mediaLink) {
+    mediaLink.addEventListener('click', async () => {
+      const err = await window.api.openMediaFolder(post.mediaPath);
+      if (err) {
+        const errEl = root.querySelector('.media-error');
+        errEl.textContent = `Folder not found: ${post.mediaPath}`;
+        errEl.hidden = false;
+      }
     });
   }
 }
