@@ -2,10 +2,12 @@ const state = {
   data: null,
   view: 'projects',
   projectId: null,
+  modal: null,
 };
 
 const STAGE_ORDER = ['idea', 'draft', 'ready', 'published'];
 const STAGE_LABEL = { idea: 'Idea', draft: 'Draft', ready: 'Ready', published: 'Published' };
+const NETWORK_LABEL = { instagram: 'Instagram', tiktok: 'TikTok', pinterest: 'Pinterest', x: 'X', youtube: 'YouTube' };
 
 function esc(s) {
   const d = document.createElement('div');
@@ -36,11 +38,27 @@ function postTime(post) {
 }
 
 function networkIcon(network, cls) {
-  return `<span class="net-icon ${cls || ''} net-${esc(network)}" title="${esc(network)}">${NETWORK_ICONS[network] || esc(network)}</span>`;
+  return `<span class="net-icon ${cls || ''} net-${esc(network)}" title="${esc(NETWORK_LABEL[network] || network)}">${NETWORK_ICONS[network] || esc(network)}</span>`;
 }
 
 function getProject(id) {
   return state.data.projects.find((p) => p.id === id);
+}
+
+function getPost(project, postId) {
+  return (project.posts || []).find((p) => p.id === postId);
+}
+
+function channelKeys(project, post) {
+  return project.accounts
+    .map((a) => a.network)
+    .filter((n) => post.channels && post.channels[n]);
+}
+
+function modalDate(post) {
+  const d = new Date(post.datetime);
+  const date = d.toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' });
+  return `${date} · ${postTime(post)}`;
 }
 
 function renderProjects() {
@@ -104,12 +122,97 @@ function renderProject(projectId) {
       ${cards || '<p class="empty-state">Nothing scheduled for today.</p>'}
     </div>
   `;
+  document.querySelectorAll('.post-card').forEach((el) => {
+    el.addEventListener('click', () => openPost(el.dataset.post));
+  });
+}
+
+function openPost(postId) {
+  const p = getProject(state.projectId);
+  const post = getPost(p, postId);
+  if (!post) return;
+  const keys = channelKeys(p, post);
+  state.modal = { postId, channel: keys[0] || null };
+  renderModal();
+}
+
+function closeModal() {
+  state.modal = null;
+  document.getElementById('modal-root').innerHTML = '';
+}
+
+function renderModal() {
+  const p = getProject(state.projectId);
+  const post = getPost(p, state.modal.postId);
+  const keys = channelKeys(p, post);
+  const active = state.modal.channel;
+  const ch = active ? post.channels[active] : null;
+  const text = ch ? (ch.text != null ? ch.text : post.masterText) : '';
+
+  const tabs = keys.map((n) => {
+    const status = post.channels[n].status;
+    return `
+      <button class="ch-tab ${n === active ? 'ch-tab-active' : ''}" data-channel="${esc(n)}" title="${esc(NETWORK_LABEL[n] || n)}">
+        ${networkIcon(n, 'ch-tab-icon status-' + status)}
+        <span class="ch-dot status-${status}"></span>
+      </button>
+    `;
+  }).join('');
+
+  document.getElementById('modal-root').innerHTML = `
+    <div class="modal-overlay">
+      <div class="modal">
+        <div class="modal-head">
+          <div>
+            <h3 class="modal-title">${esc(post.title)}</h3>
+            <span class="modal-when">${esc(modalDate(post))}</span>
+          </div>
+          <button class="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-section">
+          <span class="field-label">Master text</span>
+          <p class="master-text">${esc(post.masterText)}</p>
+          <span class="field-label">Media</span>
+          <p class="media-path">${esc(post.mediaPath || 'No media folder set')}</p>
+        </div>
+        <div class="modal-section">
+          <span class="field-label">Channels</span>
+          <div class="ch-tabs">${tabs}</div>
+          ${ch ? `
+            <div class="ch-panel">
+              <div class="ch-panel-head">
+                <span class="ch-name">${esc(NETWORK_LABEL[active] || active)}</span>
+                <span class="stage-badge stage-${ch.status}">${STAGE_LABEL[ch.status]}</span>
+              </div>
+              <p class="ch-text">${esc(text)}</p>
+              ${ch.text == null ? '<p class="ch-note">Same as master text, edit to adapt it for this channel.</p>' : ''}
+            </div>
+          ` : '<p class="empty-state">No channels on this post.</p>'}
+        </div>
+      </div>
+    </div>
+  `;
+
+  const root = document.getElementById('modal-root');
+  root.querySelector('.modal-close').addEventListener('click', closeModal);
+  root.querySelector('.modal-overlay').addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal-overlay')) closeModal();
+  });
+  root.querySelectorAll('.ch-tab').forEach((el) => {
+    el.addEventListener('click', () => {
+      state.modal.channel = el.dataset.channel;
+      renderModal();
+    });
+  });
 }
 
 async function init() {
   state.data = await window.api.loadData();
   renderProjects();
   document.getElementById('back-btn').addEventListener('click', renderProjects);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && state.modal) closeModal();
+  });
 }
 
 init();

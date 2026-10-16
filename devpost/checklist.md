@@ -19,7 +19,7 @@ Build mode: fast
   Learner check: Run `npm start`, click into a project, and say whether the overview (accounts strip, today's cards, stage badges) reads the way you pictured.
   Commit: `Scaffold app with projects list and today view`
 
-- [ ] **2. Open a post and see each channel's version**
+- [x] **2. Open a post and see each channel's version**
   Becomes usable: Clicking a post card opens the modal: scheduled date+time, master text, media path (display only for now), and one section per network the project's accounts cover — icon, status, and that channel's text (master text where not yet edited). Networks with no account on the project don't appear.
   Why now: This is the unique kernel — one post, a version per channel — and it must be visible early, not buried at the end. Read-only first so the structure lands before the interactions.
   PRD ref: `prd.md > The Core Journey` (steps 3-4), `prd.md > Post popup — one post, version per channel`
