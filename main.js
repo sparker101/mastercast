@@ -58,7 +58,7 @@ function createWindow() {
     width: 1024,
     height: 720,
     show: !smoke,
-    title: 'Poststage',
+    title: 'Mastercast',
     backgroundColor: '#f7f7f5',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

@@ -77,3 +77,4 @@ Activity mode: Prior practice connected; static reference route in the map.
 ## Revisions
 
 - Media-folder errors are checked in `main.js` before calling `shell.openPath` — the build discovered that `openPath` on a missing path makes Windows show a blocking OS error dialog that stalls the page, so the handler now returns "Folder not found" via `fs.existsSync` and the modal shows the inline error as specified.
+- Renamed Poststage → Mastercast in 6-ship: "Poststage" collided with an existing social posting tool (trypoststage.com); alternatives checked and rejected for same-space collisions (Kairos/Kairo, Masterboard Social Media, Socialcast). Window title, app header, package name, and docs updated.

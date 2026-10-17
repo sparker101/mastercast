@@ -3,9 +3,9 @@ doc: prd
 status: approved
 ---
 
-# Poststage — Product Requirements
+# Mastercast — Product Requirements
 
-A planning control room for a freelance social media manager: projects on top, each project's accounts and today's posts inside, one post with a version per channel, each channel ticked off until published. (Name "Poststage" tentative.)
+A planning control room for a freelance social media manager: projects on top, each project's accounts and today's posts inside, one post with a version per channel, each channel ticked off until published. (Renamed "Mastercast" during 6-ship; was "Poststage".)
 Source: `scope.md > The Unique Kernel`, `The Core Loop`, `What "Working" Looks Like`, `The POC Boundary`.
 
 ## The Core Journey
@@ -94,5 +94,5 @@ A real post editor with AI-assisted text variants per channel; reminders for acc
 
 ## Open Questions
 
-- Poststage vs. another name — cosmetic, pick before 6-ship.
+- ~~Poststage vs. another name~~ — resolved in 6-ship: the app is **Mastercast**. "Poststage" collided with trypoststage.com (social posting tool); "Kairos" was crowded by same-space products (Kairo, a social scheduler); "Masterboard"/"socialcast" variants also had same-niche uses.
 - Mock social screen for the video: build a throwaway mock or record a real composer on a test account — decide in 5-build or 6-ship.

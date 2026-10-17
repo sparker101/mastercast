@@ -3,7 +3,7 @@ doc: spec
 status: approved
 ---
 
-# Poststage — Technical Spec
+# Mastercast — Technical Spec
 
 ## How This Works, In Plain Language
 
@@ -152,5 +152,5 @@ None at runtime. `electron` via npm is the only dependency (docs linked above). 
 - **Vanilla JS renderer over framework** — learner-approved recommendation: smallest thing that works.
 - **Brand icons via Simple Icons inline SVGs** — learner asked about copyright; clarified: marks are trademarked not copyright-blocked for labeling use, Simple Icons is CC0 for the SVG files. That was the one genuine uncertainty, now resolved.
 - **Data in `userData`, seed in repo** — gives persistence for Filippo and a clean first-run demo for anyone cloning.
-- Open (cosmetic): final app name — pick before `6-ship`.
+- Resolved in `6-ship`: final app name is **Mastercast** (see `prd.md > Open Questions`).
 - Open (demo staging): mock social screen vs. recording a real composer — decide during `5-build`/`6-ship`; the planner itself doesn't depend on it.

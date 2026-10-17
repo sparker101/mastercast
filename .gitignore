@@ -4,3 +4,7 @@
 !.env.example
 /node_modules/
 /_*
+/.agents/
+/.claude/
+/agent/
+/skills-lock.json
