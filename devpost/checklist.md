@@ -71,7 +71,7 @@ Build mode: fast
 Activity and evidence: Connected the learner's goal (efficient agent collaboration) to the openPath failure: spec assumed an error string, Windows showed a blocking dialog instead, and the smoke harness (`PLANNER_SMOKE` in `main.js`) plus a `document.title` probe located the failure. Takeaway recorded in `app-map.html > A practice to reuse` and `## Revisions` below.
 Route and stops: Reference route only (prior practice counted): `app.js renderModal` status-seg → `app.js save()`/`preload.js`/`main.js data:save` → `app.js stageOf`. Anchors verified against committed source at `a75a34f`.
 Edit outcome: Not applicable — learner declined a code edit in favor of the focused alternative.
-Reflection: Offered the transfer question ("what would you do differently next time you start with an agent?").
+Reflection: Answered — recorded in the (gitignored) learner profile, not here.
 Activity mode: Prior practice connected; static reference route in the map.
 
 ## Revisions
