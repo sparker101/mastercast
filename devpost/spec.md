@@ -43,7 +43,7 @@ PRD ref: `prd.md > The Core Journey`.
 - `npm start` = `electron .` → window opens on the projects list.
 - Demo recording: launch, open a project, open today's card, copy channel text, open the media folder, tick published, close.
 - Public GitHub repo: https://github.com/sparker101/mastercast — code + `data/seed.json` + a `demo-media/` folder; the live data file stays in app storage, never committed. Deployment is optional and not needed — the video shows it working.
-- Demo video URL: https://youtu.be/8422mT1nR7g (unlisted YouTube, verified accessible without login)
+- Demo video URL: https://youtu.be/jONXUdaXciM (unlisted YouTube, verified accessible without login)
 
 ## Look and Feel
 
